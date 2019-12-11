@@ -25,6 +25,9 @@ mv Qt${QT_MAJOR_VERSION}.${QT_MINOR_VERSION} ${MNT_DIR}/opt/
 
 rm -f Qt${QT_MAJOR_VERSION}.${QT_MINOR_VERSION}.tar.gz
 
+log "usbtop"
+git clone https://github.com/aguinet/usbtop.git
+
 log "Download LiFePO4wered-pi"
 git clone -b ${LIFEPOWEREDPI_BRANCH} ${LIFEPOWEREDPI_REPO}
 

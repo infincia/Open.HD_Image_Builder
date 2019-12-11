@@ -26,6 +26,15 @@ sudo cmake ..
 sudo make
 sudo make install
 
+cd /home/pi
+apt install libboost-dev libpcap-dev
+
+cd usbtop
+make _build
+cd _build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+make install
 
 cd /home/pi/
 cd LiFePO4wered-Pi
