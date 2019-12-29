@@ -3,7 +3,10 @@ set -e
 # Do this to the WORK folder of this stage
 pushd ${STAGE_WORK_DIR}
 
-apt install flex bison
+log "Install QEMU"
+
+MNT_DIR="${STAGE_WORK_DIR}/mnt"
+sudo cp /usr/bin/qemu-arm-static "${MNT_DIR}/usr/bin"
 
 if [ ! -d "linux" ]; then
     log "Download the Raspberry Pi Kernel"
