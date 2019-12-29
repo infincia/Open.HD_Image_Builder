@@ -29,3 +29,7 @@ sudo cp linux/arch/arm/boot/dts/overlays/README "${MNT_DIR}/boot/overlays/"
 
 #return 
 popd
+
+# temporarily bind the linux directory inside a chroot so we can build perf
+mkdir -p ${STAGE_WORK_DIR}/mnt/home/pi/linux
+mount -o bind ${STAGE_WORK_DIR}/linux ${STAGE_WORK_DIR}/mnt/home/pi/linux

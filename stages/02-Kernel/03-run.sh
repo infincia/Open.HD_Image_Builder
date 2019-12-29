@@ -1,5 +1,8 @@
 set -e
 
+MNT_DIR="${STAGE_WORK_DIR}/mnt"
+
+
 # Do this to the WORK folder of this stage
 pushd ${STAGE_WORK_DIR}
 
@@ -14,6 +17,11 @@ KERNEL=kernel7 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make -j $J_CORES zIma
 
 log "Saving kernel as ${STAGE_WORK_DIR}/kernel7.img"
 mv arch/arm/boot/zImage "${STAGE_WORK_DIR}/kernel7.img"
+
+#pushd tools/perf
+#ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make
+#cp ./perf ${MNT_DIR}/usr/bin/perf_4.14
+#popd #out of tools/perf
 
 # out of linux 
 popd

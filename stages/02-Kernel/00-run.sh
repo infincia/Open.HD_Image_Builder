@@ -3,6 +3,8 @@ set -e
 # Do this to the WORK folder of this stage
 pushd ${STAGE_WORK_DIR}
 
+apt install flex bison
+
 if [ ! -d "linux" ]; then
     log "Download the Raspberry Pi Kernel"
     git clone --depth=100 -b ${PI_KERNEL_BRANCH} ${PI_KERNEL_REPO}
