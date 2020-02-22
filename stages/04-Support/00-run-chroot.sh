@@ -4,7 +4,8 @@
 
 #!/bin/bash
 
-if [[ "${DISTRO}" == "stretch" ]]; then
+
+if [[ "${IMAGE_ARCH}" == "pi" && "${DISTO}" == "stretch" ]]; then
     # fix broadcom opengl  library names without breaking anything else
     ln -sf /opt/vc/lib/libbrcmEGL.so /opt/vc/lib/libEGL.so
     ln -sf /opt/vc/lib/libEGL.so /opt/vc/lib/libEGL.so.1

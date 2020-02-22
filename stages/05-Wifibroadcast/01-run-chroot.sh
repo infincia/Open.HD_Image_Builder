@@ -49,32 +49,35 @@ cd /home/pi
 cd wifibroadcast-splash
 sudo make
 
-#patch hello_video
-cd /home/pi
-sudo cp wifibroadcast-hello_video/* /opt/vc/src/hello_pi/hello_video/
-# REBUILDING DOES NOT WORK, BINARIES INCLUDED IN GIT
-cd /opt/vc/src/hello_pi/hello_video
-sudo rm hello_video.bin.48-mm 2> /dev/null || echo > /dev/null
-sudo rm hello_video.bin.30-mm 2> /dev/null || echo > /dev/null
-sudo rm hello_video.bin.240-befi 2> /dev/null || echo > /dev/null
+if [ "${IMAGE_ARCH}" == "pi" ]; then
+    #patch hello_video
+    cd /home/pi
+    sudo cp wifibroadcast-hello_video/* /opt/vc/src/hello_pi/hello_video/
+    # REBUILDING DOES NOT WORK, BINARIES INCLUDED IN GIT
+    cd /opt/vc/src/hello_pi/hello_video
+    sudo rm hello_video.bin.48-mm 2> /dev/null || echo > /dev/null
+    sudo rm hello_video.bin.30-mm 2> /dev/null || echo > /dev/null
+    sudo rm hello_video.bin.240-befi 2> /dev/null || echo > /dev/null
 
-sudo cp video.c.48-mm video.c
-cd ..
-sudo make
-cd /opt/vc/src/hello_pi/hello_video
-mv hello_video.bin hello_video.bin.48-mm
+    sudo cp video.c.48-mm video.c
+    cd ..
+    sudo make
+    cd /opt/vc/src/hello_pi/hello_video
+    mv hello_video.bin hello_video.bin.48-mm
 
-sudo cp video.c.30-mm video.c
-cd ..
-sudo make
-cd /opt/vc/src/hello_pi/hello_video
-mv hello_video.bin hello_video.bin.30-mm
+    sudo cp video.c.30-mm video.c
+    cd ..
+    sudo make
+    cd /opt/vc/src/hello_pi/hello_video
+    mv hello_video.bin hello_video.bin.30-mm
 
-sudo cp video.c.240-befi video.c
-cd ..
-sudo make
-cd /opt/vc/src/hello_pi/hello_video
-mv hello_video.bin hello_video.bin.240-befi
+    sudo cp video.c.240-befi video.c
+    cd ..
+    sudo make
+    cd /opt/vc/src/hello_pi/hello_video
+    mv hello_video.bin hello_video.bin.240-befi
+fi
+
 
 #install JoystickIn
 cd /home/pi

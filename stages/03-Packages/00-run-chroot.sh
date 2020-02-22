@@ -13,16 +13,18 @@ if [ "${APT_CACHER_NG_ENABLED}" == "true" ]; then
 fi
 
 
+if [ "${IMAGE_ARCH}" == "pi" ]; then
+    apt-mark hold raspberrypi-bootloader
+    apt-mark hold raspberrypi-kernel
+    
+    # Install kernel-headers before apt-get update
+    DEBIAN_FRONTEND=noninteractive sudo apt-get -yq install raspberrypi-kernel-headers || exit 1
 
-apt-mark hold raspberrypi-bootloader
-apt-mark hold raspberrypi-kernel
+    # Install libraspberrypi-dev before apt-get update
+    DEBIAN_FRONTEND=noninteractive sudo apt-get -yq install libraspberrypi-dev libraspberrypi-dev libraspberrypi-bin libraspberrypi0 firmware-misc-nonfree || exit 1
+    apt-mark hold libraspberrypi-dev libraspberrypi-bin libraspberrypi0
+fi
 
-# Install kernel-headers before apt-get update
-DEBIAN_FRONTEND=noninteractive sudo apt-get -yq install raspberrypi-kernel-headers || exit 1
-
-# Install libraspberrypi-dev before apt-get update
-DEBIAN_FRONTEND=noninteractive sudo apt-get -yq install libraspberrypi-dev libraspberrypi-dev libraspberrypi-bin libraspberrypi0 firmware-misc-nonfree || exit 1
-apt-mark hold libraspberrypi-dev libraspberrypi-bin libraspberrypi0
 
 # Latest package source
 # sudo rm -rf /var/lib/apt/lists/*
@@ -48,13 +50,19 @@ PYTHON3="python3-pip python3-dev python3-setuptools"
 
 
 # Python dependencies used by our own code
-PYTHON2_DEPENDENCIES="python-future python-attr python-m2crypto python-rpi.gpio"
-PYTHON3_DEPENDENCIES="python3-future python3-attr python3-picamera python3-rpi.gpio"
+PYTHON2_DEPENDENCIES="python-future python-attr python-m2crypto"
+PYTHON3_DEPENDENCIES="python3-future python3-attr"
 
+if [ "${IMAGE_ARCH}" == "pi" ]; then
+    PYTHON2_DEPENDENCIES="${PYTHON2_DEPENDENCIES} python-rpi.gpio"
+    PYTHON3_DEPENDENCIES="${PYTHON3_DEPENDENCIES} python3-picamera python3-rpi.gpio"
+fi
 
 # Command line utilities used at runtime by the OpenHD scripts
-SCRIPT_DEPENDENCIES="wiringpi usbmount ser2net i2c-tools fuse socat dos2unix dosfstools ffmpeg indent omxplayer"
-
+SCRIPT_DEPENDENCIES="wiringpi usbmount ser2net i2c-tools fuse socat dos2unix dosfstools ffmpeg indent"
+if [ "${IMAGE_ARCH}" == "pi" ]; then
+    SCRIPT_DEPENDENCIES="${SCRIPT_DEPENDENCIES} omxplayer"
+fi
 
 FONT_SUPPORT="libfontconfig1-dev libfreetype6-dev ttf-dejavu-core"
 
@@ -81,8 +89,10 @@ QT_DEPENDENCIES="libfontconfig1-dev libdbus-1-dev libfreetype6-dev libicu-dev li
 
 
 GSTREAMER="libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad
-           gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-alsa gstreamer1.0-pulseaudio
-           gstreamer1.0-omx-rpi-config"
+           gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-alsa gstreamer1.0-pulseaudio"
+if [ "${IMAGE_ARCH}" == "pi" ]; then
+    GSTREAMER="${GSTREAMER} gstreamer1.0-omx-rpi-config"
+fi
 
 
 PURGE="wireless-regdb crda cron apt-transport-https aptitude aptitude-common apt-listchanges

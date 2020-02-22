@@ -1,17 +1,33 @@
-# Do this to the WORK folder of this stage
-pushd ${STAGE_WORK_DIR}
+set -e
 
-log "Install QEMU"
+if [[ "${IMAGE_ARCH}" == "amd64" && "${DISTO}" == "bionic" ]]; then
 
-MNT_DIR="${STAGE_WORK_DIR}/mnt"
-sudo cp /usr/bin/qemu-arm-static "${MNT_DIR}/usr/bin"
+    # Do this to the WORK folder of this stage
+    pushd ${STAGE_WORK_DIR}
+    MNT_DIR="${STAGE_WORK_DIR}/mnt"
 
-log "Clear the preload file"
-sudo cp "${MNT_DIR}/etc/ld.so.preload" "${MNT_DIR}/root"
-sudo cp /dev/null "${MNT_DIR}/etc/ld.so.preload"
+    log "Compile kernel for amd64"
+    pushd ${LINUX_DIR}
 
-log "Change the /etc/network/interfaces file so that wpa_suppl does not mess around"
-sudo bash -c "echo -e \"auto lo\niface lo inet loopback\nauto eth0\nallow-hotplug eth0\niface eth0 inet manual\niface wlan0 inet manual\niface wlan1 inet manual\niface wlan2 inet manual\" > \"${MNT_DIR}/etc/network/interfaces\""
+    log "Copy Kernel config"
+    cp "${STAGE_DIR}/FILES/.config-${KERNEL_BRANCH}-amd64" ./.config || exit 1
 
-#return
-popd
+
+    make clean
+
+    yes "" | make -j $J_CORES zImage modules dtbs
+
+    log "Saving kernel as ${STAGE_WORK_DIR}/kernelamd64.img"
+    cp arch/amd64/boot/zImage "${MNT_DIR}/boot/kernelamd64.img" || exit 1
+
+    log "Copy the kernel modules for amd64"
+    make -j $J_CORES INSTALL_MOD_PATH="$MNT_DIR" modules_install
+
+    # out of linux 
+    popd
+
+    #return 
+    popd
+
+
+fi

@@ -14,6 +14,17 @@ PI_BUSTER_BASE_IMAGE="2020-02-13-raspbian-buster-lite"
 PI_BUSTER_KERNEL_BRANCH=rpi-4.19.y-openhd
 PI_BUSTER_KERNEL_COMMIT="beabba1829b5874d114433a76154922094da957f"
 
+AMD64_BUSTER_BASE_IMAGE_URL="https://cloud-images.ubuntu.com/releases/bionic/release"
+AMD64_BUSTER_BASE_IMAGE="ubuntu-18.04-server-cloudimg-amd64"
+AMD64_BUSTER_KERNEL_BRANCH=rpi-4.19.y-openhd
+AMD64_BUSTER_KERNEL_COMMIT="beabba1829b5874d114433a76154922094da957f"
+
+
+JETSON_XENIAL_BASE_IMAGE_URL="https://developer.download.nvidia.com/embedded/L4T/r32_Release_v4.2"
+JETSON_XENIAL_BASE_IMAGE="nv-jetson-nano-sd-card-image-r32.4.2"
+JETSON_XENIAL_KERNEL_BRANCH=rpi-4.19.y-openhd
+JETSON_XENIAL_KERNEL_COMMIT="beabba1829b5874d114433a76154922094da957f"
+
 # Amount of cores to use for compilation on host machine
 J_CORES=12
 

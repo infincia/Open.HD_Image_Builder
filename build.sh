@@ -29,7 +29,7 @@ if [[ "${IMAGE_ARCH}" == "" || ${DISTRO} == "" ]]; then
     IMAGE_ARCH="pi"
     DISTRO="stretch"
 
-    echo "Usage: ./build.sh pi [stretch | buster]"
+    echo "Usage: ./build.sh [pi | jetson | amd64] [stretch | buster | bionic | xenial]"
     echo ""
     echo "Options:"
     echo ""
@@ -37,6 +37,9 @@ if [[ "${IMAGE_ARCH}" == "" || ${DISTRO} == "" ]]; then
     echo ""
     echo "                   pi buster: testing image, for Pi Compute Module 3+ and Pi 4"
     echo ""
+    echo "                amd64 bionic: testing image, for Intel 64-bit PC"
+    echo ""
+    echo "               jetson xenial: testing image, for Nvidia Jetson"
     echo ""
     line
     echo ""
@@ -58,6 +61,24 @@ if [[ "$IMAGE_ARCH" == "pi" && "${DISTRO}" == "buster" ]]; then
     BASE_IMAGE_URL=${PI_BUSTER_BASE_IMAGE_URL}
     BASE_IMAGE=${PI_BUSTER_BASE_IMAGE}
     KERNEL_BRANCH=${PI_BUSTER_KERNEL_BRANCH}
+fi
+
+
+if [[ "$IMAGE_ARCH" == "amd64" && "${DISTRO}" == "bionic" ]]; then
+    echo "Building amd64 buster image"
+
+    BASE_IMAGE_URL=${AMD64_BUSTER_BASE_IMAGE_URL}
+    BASE_IMAGE=${AMD64_BUSTER_BASE_IMAGE}
+    KERNEL_BRANCH=${AMD64_BUSTER_KERNEL_BRANCH}
+fi
+
+
+if [[ "$IMAGE_ARCH" == "jetson" && "${DISTRO}" == "xenial" ]]; then
+    echo "Building Jetson xenial image"
+
+    BASE_IMAGE_URL=${JETSON_XENIAL_BASE_IMAGE_URL}
+    BASE_IMAGE=${JETSON_XENIAL_BASE_IMAGE}
+    KERNEL_BRANCH=${JETSON_XENIAL_KERNEL_BRANCH}
 fi
 
 echo ""

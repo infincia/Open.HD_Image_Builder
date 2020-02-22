@@ -1,6 +1,7 @@
 set -e
 
-if [[ "${DISTRO}" == "buster" ]]; then
+
+if [[ "${IMAGE_ARCH}" == "pi" && "${DISTO}" == "buster" ]]; then
 
     # Do this to the WORK folder of this stage
     pushd ${STAGE_WORK_DIR}
